@@ -1,0 +1,40 @@
+server:
+  port:
+    8088
+
+spring:
+  application:
+    name:
+      ms-APIGateway
+  cloud:
+      gateway:
+       mvc:
+        routes:
+          - id: USERAPI
+            uri: lb://USERAPI
+            predicates:
+              - Path=/user/**
+
+          - id: HOTELAPI
+            uri: lb://HOTELAPI
+            predicates:
+              - Path=/hotel/**
+
+          - id: RATINGAPI
+            uri: lb://RATINGAPI
+            predicates:
+              - Path=/rating/**
+
+#Eureka Config
+eureka:
+  client:
+    fetch-registry:
+      true
+    register-with-eureka:
+      true
+    service-url:
+      defaultZone:
+        http://localhost:8761/eureka
+  instance:
+    prefer-ip-address:
+      true
